@@ -2,9 +2,9 @@ import requests
 import getpass
 import json
 
-url = input("Please enter the Source instance's Base URL (i.e. https://bitbucket.mycompany.com (Server)):")
-admin_user = input("Please enter the Admin username for your source environment:")
-admin_password = getpass.getpass("Please enter the Admin password for your source environment:")
+url = input("Please enter the Source instance's Base URL (i.e. https://bitbucket.mycompany.com (Server)):\n")
+admin_user = input("Please enter the Admin username for your source environment:\n")
+admin_password = getpass.getpass("Please enter the Admin password for your source environment:\n")
 
 session = requests.Session()
 session.auth = (admin_user, admin_password)
