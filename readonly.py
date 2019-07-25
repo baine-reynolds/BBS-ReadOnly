@@ -33,10 +33,11 @@ def read_serv_repos(project_json, repo_start=None, repo_limit=None):
 			return
 		repo_start = r_data['nextPageStart']
 
-def write_serv_repos_lfs(project_json, repo_json):
+def write_serv_repos_readonly(project_json, repo_json):
 	headers = {'X-Atlassian-Token': 'nocheck'}
-	print("setting LFS on repo " + repo_json['slug'])
-	r = session.put(url + "/rest/git-lfs/admin/projects/" + project_json['key'] + "/repos/" + repo_json['slug'] + "/enabled", headers=headers)
+	payload = {"type": "read-only", "matcher": { "id": "*", "displayId": "*", "type": { "id": "PATTERN", "name": "Pattern"}, "active": true }}
+	print("setting Read-Only on repo " + repo_json['slug'])
+	r = session.put(url + "/rest/git-lfs/admin/projects/" + project_json['key'] + "/repos/" + repo_json['slug'] + "/enabled", json=payload, headers=headers)
 
 if url:
 	r = session.get(url + '/status')
@@ -44,6 +45,6 @@ if url:
 	if status == "200":
 		for project_json in read_serv_projects():
 			for repo_json in read_serv_repos(project_json):
-				write_serv_repos_lfs(project_json, repo_json)
+				write_serv_repos_readonly(project_json, repo_json)
 	else:
 		print("Server not Reachable")
