@@ -35,9 +35,9 @@ def read_serv_repos(project_json, repo_start=None, repo_limit=None):
 
 def write_serv_repos_readonly(project_json, repo_json):
 	headers = {'X-Atlassian-Token': 'nocheck'}
-	payload = {"type": "read-only", "matcher": { "id": "*", "displayId": "*", "type": { "id": "PATTERN", "name": "Pattern"}, "active": true }}
+	payload = {"type": "read-only", "matcher": { "id": "*", "displayId": "*", "type": { "id": "PATTERN", "name": "Pattern"}, "active": True }}
 	print("setting Read-Only on repo " + repo_json['slug'])
-	r = session.put(url + "/rest/git-lfs/admin/projects/" + project_json['key'] + "/repos/" + repo_json['slug'] + "/enabled", json=payload, headers=headers)
+	r = session.post(url + "/rest/branch-permissions/latest/projects/" + project_json['key'] + "/repos/" + repo_json['slug'] + "/restrictions", json=payload, headers=headers)
 
 if url:
 	r = session.get(url + '/status')
